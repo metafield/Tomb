@@ -6,7 +6,7 @@ interface OutputProps {
 }
 
 export const Output = (props: OutputProps) => {
-  return <TextArea placeholder={props.text} />
+  return <TextArea placeholder={props.text} disabled={true} />
 }
 
 const TextArea = styled.textarea`
