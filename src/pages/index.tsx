@@ -1,16 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import '../styles/global.css'
-import { Encryptor } from '../components/encryption/encryptor'
 import { Encryption } from '../components/encryption/Encryption'
-
-const tomb = new Encryptor()
 
 export default () => (
   <Container>
-    <p>
-      {tomb.alphabet}->{tomb.cipher}
-    </p>
     <Encryption />
   </Container>
 )

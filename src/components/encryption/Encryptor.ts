@@ -1,15 +1,15 @@
 export class Encryptor {
   public alphabet = this.generateAlphabet()
   public cipher = this.generateAlphabet()
-  public subTable: { [key: string]: string }
+  public subTable: { [key: string]: string } = {}
 
-  constructor(public input: string) {
+  constructor() {
     this.scrambleCipher()
     this.buildSubstituteTable()
   }
 
-  public encrypt(): string {
-    const cleanedText = this.input.toLocaleLowerCase()
+  public encrypt(input): string {
+    const cleanedText = input.toLocaleLowerCase()
     const encryptedText = [...cleanedText].map((char, index): string => {
       const code = cleanedText.charCodeAt[index]
       if (code >= 97 && code < code + 26) {
