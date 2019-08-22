@@ -8,15 +8,16 @@ const placeholderText = {
   output: `Your secret text appears here!`,
 }
 
+const encryptor = new Encryptor()
+
 export const Encryption = (): JSX.Element => {
   const [inputText, setInputText] = React.useState(placeholderText.input)
   const [outputText, setOutputText] = React.useState(placeholderText.output)
-  const encryptor = new Encryptor()
 
   const handleInput = (event: ChangeEvent<HTMLTextAreaElement>): void => {
-    // TODO: if some cooldown has cooled
-    setInputText(event.target.value)
-    setOutputText(encryptor.encrypt())
+    const text = event.target.value
+    setInputText(text)
+    setOutputText(encryptor.encrypt(text))
   }
 
   return (
