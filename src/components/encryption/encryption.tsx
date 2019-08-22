@@ -1,7 +1,6 @@
 import React, { ChangeEvent } from 'react'
 import styled from 'styled-components'
 import bcrypt from 'bcryptjs'
-import { Output } from './output'
 import { Encryptor } from './Encryptor'
 
 const placeholderText = {
@@ -32,14 +31,19 @@ export const Encryption = (): JSX.Element => {
     setOutputText(encryptor.encrypt(text))
   }
 
+  const handleOutputChange = (
+    event: ChangeEvent<HTMLTextAreaElement>
+  ): void => {
+    const text = event.target.value
+    console.log(encryptor.decrypt(text))
+  }
+
   const handleShowPassToggle = () => {
     setHidePass(!hidePass)
   }
 
   return (
     <Container>
-      <Input onChange={event => handleInputChange(event)} />
-      <Output text={outputText + hash} />
       <div>
         <h1>Enter a passphrase!</h1>
         <Password
@@ -49,7 +53,12 @@ export const Encryption = (): JSX.Element => {
         <button onClick={handleShowPassToggle}>
           {hidePass ? 'show' : 'hide'}
         </button>
+        <button onClick={() => encryptor.decrypt(outputText + hash)}>
+          decrypt
+        </button>
       </div>
+      <Input onChange={event => handleInputChange(event)} />
+      <Output value={outputText + hash} onChange={handleOutputChange} />
     </Container>
   )
 }
@@ -59,13 +68,16 @@ const Container = styled.div`
   grid-column: 2;
   display: grid;
   grid-gap: 25px;
-  grid-template: 100px 1fr 1fr / 1fr 1fr;
+  grid-template: 100px 1fr 1fr / 1fr;
+
+  > * {
+    font: 1rem/ 1.5rem var(--body-font);
+  }
 `
 
-const Input = styled.textarea`
-  grid-row: 2;
-  font: 2rem/ 2.5rem var(--body-font);
-`
+const Input = styled.textarea``
+
+const Output = styled.textarea``
 
 const Password = styled.input`
   width: 100%;

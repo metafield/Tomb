@@ -10,19 +10,40 @@ export class Encryptor {
     this.buildSubstituteTable()
   }
 
-  public encrypt(input): string {
+  public decrypt(data: string): string {
+    console.log('data: ', data)
+
+    const metadata = data.slice(-86)
+    console.log('metadata: ', metadata)
+
+    const cipher = metadata.slice(1, 26)
+    const hash = metadata.slice(-60)
+    const body = data.slice(0, -85)
+    console.log('cipher: ', cipher)
+    console.log('body: ', body)
+
+    this.cipher = cipher.split('')
+    this.buildSubstituteTable()
+    console.log(this.subTable)
+
+    const message = [...body].map(char => this.revertChar(char)).join('')
+    console.log(message)
+    return message
+  }
+
+  public encrypt(input: string): string {
     const cleanedText: string = input.toLocaleLowerCase()
 
-    const encryptedText = [...cleanedText].map((char, index): string => {
+    const encryptedText = [...cleanedText].map((char): string => {
       const code = char.charCodeAt(0)
 
       if (code >= 97 && code < code + 26) {
-        return this.subChar(char)
+        return this.convertChar(char)
       } else {
         return char
       }
     })
-    return encryptedText.join('')
+    return encryptedText.concat(this.cipher).join('')
   }
 
   private generateAlphabet(): string[] {
@@ -48,7 +69,16 @@ export class Encryptor {
     })
   }
 
-  private subChar(char: string): string {
+  private convertChar(char: string): string {
     return this.subTable[char]
+  }
+
+  private revertChar(char: string): string {
+    for (const key in this.subTable) {
+      if (this.subTable[key] === char) {
+        return key
+      }
+    }
+    return char
   }
 }
