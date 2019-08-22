@@ -15,6 +15,7 @@ export const Encryption = (): JSX.Element => {
   const [inputText, setInputText] = React.useState(placeholderText.input)
   const [outputText, setOutputText] = React.useState(placeholderText.output)
   const [password, setPassword] = React.useState('pass')
+  const [hidePass, setHidePass] = React.useState(true)
   const [hash, setHash] = React.useState('pass')
 
   const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -31,13 +32,23 @@ export const Encryption = (): JSX.Element => {
     setOutputText(encryptor.encrypt(text))
   }
 
+  const handleShowPassToggle = () => {
+    setHidePass(!hidePass)
+  }
+
   return (
     <Container>
       <Input onChange={event => handleInputChange(event)} />
       <Output text={outputText + hash} />
       <div>
         <h1>Enter a passphrase!</h1>
-        <Password onChange={handlePasswordChange} />
+        <Password
+          type={hidePass ? 'password' : 'text'}
+          onChange={handlePasswordChange}
+        />
+        <button onClick={handleShowPassToggle}>
+          {hidePass ? 'show' : 'hide'}
+        </button>
       </div>
     </Container>
   )
@@ -53,6 +64,7 @@ const Container = styled.div`
 
 const Input = styled.textarea`
   grid-row: 2;
+  font: 2rem/ 2.5rem var(--body-font);
 `
 
 const Password = styled.input`
