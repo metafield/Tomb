@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import '../styles/global.css'
-import { Encryption } from '../components/encryption/Encryption'
+import { Encryption } from '../components/encryption/encryption'
 
 export default () => (
   <Container>
