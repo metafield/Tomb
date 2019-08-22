@@ -1,5 +1,6 @@
 import React, { ChangeEvent } from 'react'
 import styled from 'styled-components'
+import bcrypt from 'bcryptjs'
 import { Output } from './output'
 import { Encryptor } from './Encryptor'
 
@@ -13,8 +14,18 @@ const encryptor = new Encryptor()
 export const Encryption = (): JSX.Element => {
   const [inputText, setInputText] = React.useState(placeholderText.input)
   const [outputText, setOutputText] = React.useState(placeholderText.output)
+  const [password, setPassword] = React.useState('pass')
+  const [hash, setHash] = React.useState('pass')
 
-  const handleInput = (event: ChangeEvent<HTMLTextAreaElement>): void => {
+  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const password = event.target.value
+    setPassword(password)
+    bcrypt.hash(password, 10, (err, hash) => {
+      setHash(hash)
+    })
+  }
+
+  const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     const text = event.target.value
     setInputText(text)
     setOutputText(encryptor.encrypt(text))
@@ -22,8 +33,12 @@ export const Encryption = (): JSX.Element => {
 
   return (
     <Container>
-      <Input onChange={event => handleInput(event)} />
-      <Output text={outputText} />
+      <Input onChange={event => handleInputChange(event)} />
+      <Output text={outputText + hash} />
+      <div>
+        <h1>Enter a passphrase!</h1>
+        <Password onChange={handlePasswordChange} />
+      </div>
     </Container>
   )
 }
@@ -33,9 +48,13 @@ const Container = styled.div`
   grid-column: 2;
   display: grid;
   grid-gap: 25px;
-  grid-template: repeat(3, 1fr) / 1fr 1fr;
+  grid-template: 100px 1fr 1fr / 1fr 1fr;
 `
 
 const Input = styled.textarea`
   grid-row: 2;
+`
+
+const Password = styled.input`
+  width: 100%;
 `
