@@ -22,7 +22,7 @@ export class Encryptor {
         return char
       }
     })
-    return encryptedText.join()
+    return encryptedText.join('')
   }
 
   private generateAlphabet(): string[] {
