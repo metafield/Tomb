@@ -1,11 +1,28 @@
-import React from 'react'
+import React, {
+  ReactEventHandler,
+  FormEvent,
+  FormEventHandler,
+  SyntheticEvent,
+} from 'react'
 import styled from 'styled-components'
+import { Output } from './output'
 
-export const Encryptor = () => {
+const placeholderText = {
+  input: `Type in your secret message!`,
+}
+
+export const Encryptor = (): JSX.Element => {
+  const [InputText, setInputText] = React.useState(placeholderText.input)
+
+  const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    // TODO: if some cooldown has cooled
+    setInputText(event.target.value)
+  }
+
   return (
     <Container>
-      <Input />
-      <Input />
+      <Input onChange={event => handleInput(event)} />
+      <Output text={InputText} />
     </Container>
   )
 }
