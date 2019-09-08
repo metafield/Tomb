@@ -5,7 +5,7 @@ import { Encryptor } from './Encryptor'
 import { Message } from './message'
 
 const placeholderText = {
-  input: `Type in your secret message!`,
+  input: `Type in your secret message or paste in a code!`,
   output: `Your secret text appears here!`,
 }
 
@@ -13,11 +13,14 @@ const encryptor = new Encryptor()
 const hashLength = 60
 
 export const Encryption = (): JSX.Element => {
-  const [inputText, setInputText] = React.useState(placeholderText.input)
-  const [outputText, setOutputText] = React.useState(placeholderText.output)
+  const [inputText, setInputText] = React.useState('')
+  const [outputText, setOutputText] = React.useState('')
+  const [decodedMessage, setDecodedMessage] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [hidePass, setHidePass] = React.useState(true)
-  const [hash, setHash] = React.useState('pass')
+  const [hash, setHash] = React.useState('')
+  const [showMessageModal, setShowMessageModal] = React.useState(false)
+  const hideMessage = () => setShowMessageModal(false)
 
   const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const password = event.target.value
@@ -29,7 +32,11 @@ export const Encryption = (): JSX.Element => {
 
   const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     const text = event.target.value
-    shouldTryDecrypt(text)
+    if (shouldTryDecrypt(text)) {
+      const decoded = encryptor.decrypt(text)
+      setDecodedMessage(decoded)
+      setShowMessageModal(true)
+    }
     setInputText(text)
     setOutputText(encryptor.encrypt(text))
   }
@@ -40,12 +47,15 @@ export const Encryption = (): JSX.Element => {
     }
 
     const hash = text.slice(-60)
-    if (!bcrypt.compareSync(password, hash)) {
-      alert('password does not match')
+    try {
+      if (!bcrypt.compareSync(password, hash)) {
+        alert('password does not match')
+        return false
+      }
+    } catch (error) {
       return false
     }
 
-    alert('password matches')
     return true
   }
 
@@ -66,7 +76,9 @@ export const Encryption = (): JSX.Element => {
 
   return (
     <>
-      <Message message="hello there" show={true} />
+      {showMessageModal && (
+        <Message message={decodedMessage} close={hideMessage} />
+      )}
       <Container>
         <div>
           <h1>Enter a passphrase!</h1>
@@ -81,8 +93,15 @@ export const Encryption = (): JSX.Element => {
             decrypt
           </button>
         </div>
-        <Input onChange={event => handleInputChange(event)} />
-        <Output value={outputText + hash} onChange={handleOutputChange} />
+        <Input
+          onChange={event => handleInputChange(event)}
+          placeholder={placeholderText.input}
+        />
+        <Output
+          value={outputText + hash}
+          onChange={handleOutputChange}
+          placeholder={placeholderText.output}
+        />
       </Container>
     </>
   )
@@ -94,6 +113,7 @@ const Container = styled.div`
   display: grid;
   grid-gap: 25px;
   grid-template: 100px 1fr 1fr / 1fr;
+  padding: 25px 0;
 
   > * {
     font: 1rem/ 1.5rem var(--body-font);

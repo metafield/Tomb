@@ -3,21 +3,12 @@ import styled from 'styled-components'
 
 interface MessageProps {
   message: string
-  show: boolean
+  close: () => void
 }
 
-export const Message = ({
-  message,
-  show,
-}: MessageProps): JSX.Element | null => {
-  const [enabled, setEnabled] = React.useState(show)
-
-  if (!enabled) {
-    return null
-  }
-
+export const Message = ({ message, close }: MessageProps): JSX.Element => {
   const onBackgroundClick = () => {
-    setEnabled(false)
+    close()
   }
 
   const onMessageBoxClick = (event: MouseEvent) => {
