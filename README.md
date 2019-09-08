@@ -32,3 +32,10 @@ The first major commits are all the basic stuff, setup, installing, configuring.
 Currently everything is working as intended but I have reached major dimishing returns in productivity. Since each message is encrypted with a randomly generated key and testing is becoming impossible and a better approch with unit testing would be more appropriate.
 
 This would be a great time to really look at the class structure and figure out what objects should be responsible for what. It could be argued that this should be done before starting any code but I really like the method of just shoving things in God objects and then breaking them out later in refactors.
+
+# 3: Everything is not working as intended.
+
+After getting some strnage results I decided to start writing tests before refactoring the code and sure enough im getting in different values upon each new call to `encrypt`. I could have sworn it was working perfectly fine earlier but this at least demonstrates how powerful testing is.
+
+    Expected: "vnzzu xvnyn!knefouspxgtbjyqzwavmdrhicl"
+    Received: "wsqqa uwsts!knefouspxgtbjyqzwavmdrhicl"
