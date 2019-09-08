@@ -89,9 +89,6 @@ export const Encryption = (): JSX.Element => {
           <button onClick={handleShowPassToggle}>
             {hidePass ? 'show' : 'hide'}
           </button>
-          <button onClick={() => encryptor.decrypt(outputText + hash)}>
-            decrypt
-          </button>
         </div>
         <Input
           onChange={event => handleInputChange(event)}
