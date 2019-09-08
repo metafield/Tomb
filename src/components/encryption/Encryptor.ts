@@ -13,7 +13,6 @@ export class Encryptor {
   public decrypt(data: string): string {
     const metadata = data.slice(-86)
     const cipher = metadata.slice(0, 26)
-    const hash = metadata.slice(-60)
     const body = data.slice(0, -86)
     this.setCipher(cipher)
     const message = [...body].map(char => this.revertChar(char)).join('')

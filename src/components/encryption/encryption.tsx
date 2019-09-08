@@ -2,6 +2,7 @@ import React, { ChangeEvent } from 'react'
 import styled from 'styled-components'
 import bcrypt from 'bcryptjs'
 import { Encryptor } from './Encryptor'
+import { Message } from './message'
 
 const placeholderText = {
   input: `Type in your secret message!`,
@@ -9,11 +10,12 @@ const placeholderText = {
 }
 
 const encryptor = new Encryptor()
+const hashLength = 60
 
 export const Encryption = (): JSX.Element => {
   const [inputText, setInputText] = React.useState(placeholderText.input)
   const [outputText, setOutputText] = React.useState(placeholderText.output)
-  const [password, setPassword] = React.useState('pass')
+  const [password, setPassword] = React.useState('')
   const [hidePass, setHidePass] = React.useState(true)
   const [hash, setHash] = React.useState('pass')
 
@@ -27,8 +29,28 @@ export const Encryption = (): JSX.Element => {
 
   const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     const text = event.target.value
+    shouldTryDecrypt(text)
     setInputText(text)
     setOutputText(encryptor.encrypt(text))
+  }
+
+  const shouldTryDecrypt = (text: string): boolean => {
+    if (text.length < hashLength || !isValidPassword(password)) {
+      return false
+    }
+
+    const hash = text.slice(-60)
+    if (!bcrypt.compareSync(password, hash)) {
+      alert('password does not match')
+      return false
+    }
+
+    alert('password matches')
+    return true
+  }
+
+  const isValidPassword = (pass: string): boolean => {
+    return pass.length > 0
   }
 
   const handleOutputChange = (
@@ -43,23 +65,26 @@ export const Encryption = (): JSX.Element => {
   }
 
   return (
-    <Container>
-      <div>
-        <h1>Enter a passphrase!</h1>
-        <Password
-          type={hidePass ? 'password' : 'text'}
-          onChange={handlePasswordChange}
-        />
-        <button onClick={handleShowPassToggle}>
-          {hidePass ? 'show' : 'hide'}
-        </button>
-        <button onClick={() => encryptor.decrypt(outputText + hash)}>
-          decrypt
-        </button>
-      </div>
-      <Input onChange={event => handleInputChange(event)} />
-      <Output value={outputText + hash} onChange={handleOutputChange} />
-    </Container>
+    <>
+      <Message message="hello there" show={true} />
+      <Container>
+        <div>
+          <h1>Enter a passphrase!</h1>
+          <Password
+            type={hidePass ? 'password' : 'text'}
+            onChange={handlePasswordChange}
+          />
+          <button onClick={handleShowPassToggle}>
+            {hidePass ? 'show' : 'hide'}
+          </button>
+          <button onClick={() => encryptor.decrypt(outputText + hash)}>
+            decrypt
+          </button>
+        </div>
+        <Input onChange={event => handleInputChange(event)} />
+        <Output value={outputText + hash} onChange={handleOutputChange} />
+      </Container>
+    </>
   )
 }
 
