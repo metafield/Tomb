@@ -29,6 +29,6 @@ No backend and client side logic really is just a static website and I've yet to
 
 The first major commits are all the basic stuff, setup, installing, configuring. I then get a basic css grid down and start working on the guts of the encryption component and along with it an Encryption class to handle all of the logic.
 
-Currently everything is working as intended but I have reached major dimishing returns in productivity. Since each message is encrypted with a randomly generated key hand testing is becoming impossible and a better approch with unit testing would be more appropriate.
+Currently everything is working as intended but I have reached major dimishing returns in productivity. Since each message is encrypted with a randomly generated key and testing is becoming impossible and a better approch with unit testing would be more appropriate.
 
 This would be a great time to really look at the class structure and figure out what objects should be responsible for what. It could be argued that this should be done before starting any code but I really like the method of just shoving things in God objects and then breaking them out later in refactors.

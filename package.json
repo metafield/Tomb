@@ -21,11 +21,12 @@
     "gatsby-plugin-typescript": "^2.1.3",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "styled-components": "^4.3.2",
-    "typescript": "^3.5.3"
+    "styled-components": "^4.3.2"
   },
   "devDependencies": {
-    "prettier": "^1.18.2"
+    "jest": "^24.9.0",
+    "prettier": "^1.18.2",
+    "typescript": "^3.6.2"
   },
   "repository": {
     "type": "git",
