@@ -39,3 +39,9 @@ After getting some strnage results I decided to start writing tests before refac
 
     Expected: "vnzzu xvnyn!knefouspxgtbjyqzwavmdrhicl"
     Received: "wsqqa uwsts!knefouspxgtbjyqzwavmdrhicl"
+
+# 4: Back on track
+
+With testing in I was able to focus my time on fixing the functionality rather than messing aorund looking for bugs. I added in the core functionality and some code to auto-detect an encoded message. The main issues now are more on the UX side especially verification of fields and walking to the user through steps when things go wrong.
+
+TODO: Have a popup for password when the hash is correct but the password is not present
