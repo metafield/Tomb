@@ -11,21 +11,12 @@ export class Encryptor {
   }
 
   public decrypt(data: string): string {
-    console.log('data: ', data)
-
     const metadata = data.slice(-86)
-    console.log('metadata: ', metadata)
-
     const cipher = metadata.slice(0, 26)
     const hash = metadata.slice(-60)
     const body = data.slice(0, -86)
-    console.log('cipher: ', cipher)
-    console.log('body: ', body)
-
     this.setCipher(cipher)
-
     const message = [...body].map(char => this.revertChar(char)).join('')
-    console.log('message: ', message)
     return message
   }
 
