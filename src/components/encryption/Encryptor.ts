@@ -22,13 +22,16 @@ export class Encryptor {
     console.log('cipher: ', cipher)
     console.log('body: ', body)
 
-    this.cipher = cipher.split('')
-    this.buildSubstituteTable()
-    console.log(this.subTable)
+    this.setCipher(cipher)
 
     const message = [...body].map(char => this.revertChar(char)).join('')
     console.log(message)
     return message
+  }
+
+  public setCipher(cipher: string): void {
+    this.cipher = cipher.split('')
+    this.buildSubstituteTable()
   }
 
   public encrypt(input: string): string {

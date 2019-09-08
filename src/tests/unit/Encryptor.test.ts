@@ -1,12 +1,10 @@
 import { Encryptor } from '../../components/encryption/Encryptor'
-import { staticCypher } from '../Helpers'
-import { TabBarIOS } from 'react-native'
+import { staticCipher } from '../Helpers'
 
-test('Correctly encrypts string', () => {
+test('Correctly encrypts string with cipher', () => {
   const encryptor = new Encryptor()
-  encryptor.cipher = staticCypher
-  // TODO: the error is the buuildtable not being called
+  encryptor.setCipher(staticCipher)
   const message = 'Hello there!'
   const encrypted = encryptor.encrypt(message)
-  expect(encrypted).toBe(`vnzzu xvnyn!knefouspxgtbjyqzwavmdrhicl`)
+  expect(encrypted).toBe(`pobbq mpoao!knefouspxgtbjyqzwavmdrhicl`)
 })
